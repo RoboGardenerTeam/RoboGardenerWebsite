@@ -3,9 +3,14 @@ import requests
 from functools import wraps
 from requests_ntlm import HttpNtlmAuth
 from config import allowed_accounts, scan_status
+import sys
+from threading import Thread
 
 app = Flask(__name__,static_url_path='')
 app.secret_key = 'oRaNg3_tO_b@rDz0_fAJJJn@@@ff1RmA!'
+
+ROBOT_PORT = 5000
+robot_url="http://localhost:"+ str(ROBOT_PORT)
 
 @app.route('/assets/<path:path>')
 def send_js(path):
@@ -106,6 +111,8 @@ def startScan():
     scan_status['started'] = True
     scan_status['progress'] = 1
 
+    Thread(target=requests.get,args=[robot_url + "/start", "timeout=1"]).start()
+
     return redirect(url_for('status'), code=302)
 
 @app.route('/cancelScan')
@@ -114,7 +121,22 @@ def cancelScan():
     scan_status['started'] = False
     scan_status['progress'] = None
 
+    requests.get(robot_url + "/pause", timeout=2)
     return redirect(url_for('status'), code=302)
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    # we assume the robot is always on port 5000
+
+    args = sys.argv[1:]
+    if len(args) == 0:
+        print("Error: Please enter a port for this server to run on.")
+        sys.exit()
+    elif len(args) >= 1:
+        # set port for this server to run on
+        inp_port = int(args[0])
+        # can't have same port as robot on localhost
+        if inp_port == ROBOT_PORT:
+            print("ERROR: Port must not be 5000")
+            sys.exit()
+        app.run(debug=True, port=inp_port)
+

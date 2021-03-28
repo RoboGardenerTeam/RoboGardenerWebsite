@@ -158,4 +158,4 @@ def scanStatus():
 
 if __name__ == "__main__":
     # we assume the robot is always on port 5001
-    app.run(port=5000)
+    app.run(host= '0.0.0.0', port=5000)

@@ -3,7 +3,7 @@ var robot_url = "http://localhost:" + ROBOT_PORT;
 
 
 function controlCall(endpoint) {
-    var url = robot_url + "/" + endpoint;
+    var url = "/" + endpoint;
     var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function() {
         if (this.readyState == 4) {
@@ -22,7 +22,7 @@ function controlCall(endpoint) {
 
 
 function batteryLevel() {
-    var url = robot_url + "/batteryLevel";
+    var url = "/batteryLevel";
     var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function() {
         if (this.readyState == 4) {
@@ -43,7 +43,7 @@ function batteryLevel() {
 }
 
 function scanStatus() {
-    var url = robot_url + "/scanStatus";
+    var url = "/scanStatus";
     var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function() {
         var startButton = document.getElementById("startButton")

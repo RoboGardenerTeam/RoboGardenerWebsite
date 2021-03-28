@@ -26,7 +26,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-6 col-xl-3 mb-4">
+        <!-- <div class="col-md-6 col-xl-3 mb-4">
             <div class="card shadow border-left-info py-2">
                 <div class="card-body">
                     <div class="row align-items-center no-gutters">
@@ -47,7 +47,7 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div> -->
     </div>
     <div class="d-sm-flex justify-content-between align-items-center mb-4">
         {% if scan_started %}
@@ -67,13 +67,13 @@
                             <div class="text-uppercase text-info font-weight-bold text-xs mb-1"><span>Cleaning in progress</span></div>
                             <div class="row no-gutters align-items-center">
                                 <div class="col-auto">
-                                    <div class="text-dark font-weight-bold h5 mb-0 mr-3"><span>{{scan_progress}}%</span></div>
+                                    <div class="text-dark font-weight-bold h5 mb-0 mr-3"><span>Status: {{scan_progress}}</span></div>
                                 </div>
-                                <div class="col">
+                                <!-- <div class="col">
                                     <div class="progress progress-sm">
                                         <div class="progress-bar bg-info" aria-valuenow="{{scan_progress}}" aria-valuemin="0" aria-valuemax="100" style="width: {{scan_progress}}%;"><span class="sr-only">{{scan_progress}}%</span></div>
                                     </div>
-                                </div>
+                                </div> -->
                             </div>
                         </div>
                         <div class="col-auto"><i class="fas fa-hourglass-half fa-2x text-gray-300"></i></div>
@@ -82,14 +82,22 @@
             </div>
         </div>
         <div class="col align-self-center">
-            <div class="card text-white bg-danger shadow">
-                <form class="mx-auto" action="/cancelScan">
+            <div class="card text-white bg-warning shadow">
+                <form class="mx-auto" action="/pauseScan">
                     <button type='submit' class="card-body btn">
-                        <span class="text-white text-center m-0">Cancel</span>
+                        <span class="text-white text-center m-0">Pause</span>
                     </button>
                 </form>
             </div>
-
+        </div>
+        <div class="col align-self-center">
+            <div class="card text-white bg-danger shadow">
+                <form class="mx-auto" action="/cancelScan">
+                    <button type='submit' class="card-body btn">
+                        <span class="text-white text-center m-0">End</span>
+                    </button>
+                </form>
+            </div>
         </div>
 
         {% else %}

@@ -9,7 +9,7 @@ from threading import Thread
 app = Flask(__name__,static_url_path='')
 app.secret_key = 'oRaNg3_tO_b@rDz0_fAJJJn@@@ff1RmA!'
 
-ROBOT_PORT = 5000
+ROBOT_PORT = 5001
 robot_url="http://localhost:"+ str(ROBOT_PORT)
 
 @app.route('/assets/<path:path>')
@@ -109,34 +109,24 @@ def status():
 @authenticated_resource
 def startScan():
     scan_status['started'] = True
-    scan_status['progress'] = 1
-
-    Thread(target=requests.get,args=[robot_url + "/start", "timeout=1"]).start()
-
+    scan_status['progress'] = requests.get(robot_url + "/start").json()['message']
+    # scan_status['progress'] = "hello"
     return redirect(url_for('status'), code=302)
 
 @app.route('/cancelScan')
 @authenticated_resource
 def cancelScan():
     scan_status['started'] = False
-    scan_status['progress'] = None
+    scan_status['progress'] = requests.get(robot_url + "/gohome").json()['message']
+    return redirect(url_for('status'), code=302)
 
-    requests.get(robot_url + "/pause", timeout=2)
+@app.route('/pauseScan')
+@authenticated_resource
+def pauseScan():
+    scan_status['started'] = True
+    scan_status['progress'] = requests.get(robot_url + "/pause").json()['message']
     return redirect(url_for('status'), code=302)
 
 if __name__ == "__main__":
-    # we assume the robot is always on port 5000
-
-    args = sys.argv[1:]
-    if len(args) == 0:
-        print("Error: Please enter a port for this server to run on.")
-        sys.exit()
-    elif len(args) >= 1:
-        # set port for this server to run on
-        inp_port = int(args[0])
-        # can't have same port as robot on localhost
-        if inp_port == ROBOT_PORT:
-            print("ERROR: Port must not be 5000")
-            sys.exit()
-        app.run(debug=True, port=inp_port)
-
+    # we assume the robot is always on port 5001
+    app.run(port=5000)

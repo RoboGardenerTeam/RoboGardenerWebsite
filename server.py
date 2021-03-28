@@ -156,7 +156,8 @@ def battery():
 @app.route('/scanStatus')
 @authenticated_resource
 def scanStatus():
-    scan_status = (requests.get(robot_url + "/status").json()['message'])
+    scan_status = (requests.get(robot_url + "/status").json())
+    print(scan_status)
     return scan_status
 
 if __name__ == "__main__":

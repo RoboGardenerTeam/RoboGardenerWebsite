@@ -51,20 +51,18 @@
     </div>
     <div class="d-sm-flex justify-content-between align-items-center mb-4 ">
         <h4 class="text-dark mb-0 ">Controls</h4>
-
-
     </div>
     <div class="row ">
-        {% if scan_started %}
+        <!-- STATUS INFO -->
         <div class="col-md-8 col-xl-9 align-self-center mb-4 ">
             <div class="card shadow border-left-success py-2 ">
                 <div class="card-body ">
                     <div class="row align-items-center no-gutters ">
                         <div class="col mr-2 ">
-                            <div class="text-uppercase text-info font-weight-bold text-xs mb-1 "><span>Cleaning in progress</span></div>
+                            <div class="text-uppercase text-info font-weight-bold text-xs mb-1 "><span>Status of the robot </span></div>
                             <div class="row no-gutters align-items-center ">
                                 <div class="col-auto ">
-                                    <div id="scanStatusText" class="text-dark font-weight-bold h5 mb-0 mr-3 "><span>Status: Loading...</span></div>
+                                    <div id="scanStatusText" class="text-dark font-weight-bold h5 mb-0 mr-3 "><span>Loading...</span></div>
                                 </div>
                                 <!-- <div class="col ">
                                     <div class="progress progress-sm ">
@@ -78,6 +76,9 @@
                 </div>
             </div>
         </div>
+        {% if scan_started %}
+
+        <!-- PAUSE BUTTON -->
         <div class="col align-self-center ">
             <div class="card text-white bg-warning shadow ">
                 <form class="mx-auto " action="/pauseScan ">
@@ -87,6 +88,17 @@
                 </form>
             </div>
         </div>
+        <!-- RESUME BUTTON -->
+        <div class="col align-self-center ">
+            <div class="card text-white bg-warning shadow ">
+                <form class="mx-auto " action="/pauseScan ">
+                    <button type='submit' class="card-body btn ">
+                        <span class="text-white text-center m-0 ">Pause</span>
+                    </button>
+                </form>
+            </div>
+        </div>
+        <!-- END BUTTON -->
         <div class="col align-self-center ">
             <div class="card text-white bg-danger shadow ">
                 <form class="mx-auto " action="/cancelScan ">
@@ -98,6 +110,7 @@
         </div>
 
         {% else %}
+        <!-- START BUTTON -->
         <div class="col-xl-3 align-self-center ">
             <div class="card text-white bg-success shadow ">
                 <form class="mx-auto " action="/startScan ">

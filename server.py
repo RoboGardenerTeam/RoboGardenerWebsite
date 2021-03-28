@@ -12,6 +12,13 @@ app.secret_key = 'oRaNg3_tO_b@rDz0_fAJJJn@@@ff1RmA!'
 ROBOT_PORT = 5001
 robot_url="http://localhost:"+ str(ROBOT_PORT)
 
+
+################################################################
+################################################################
+###################### USER INTERFACE ##########################
+################################################################
+
+
 @app.route('/assets/<path:path>')
 def send_js(path):
     return send_from_directory('assets', path)
@@ -105,6 +112,11 @@ def status():
         scan_progress = scan_status['progress']
         )
 
+################################################################
+################################################################
+######################### API CALLS ############################
+################################################################
+
 @app.route('/startScan')
 @authenticated_resource
 def startScan():
@@ -126,6 +138,26 @@ def pauseScan():
     scan_status['started'] = True
     scan_status['progress'] = requests.get(robot_url + "/pause").json()['message']
     return redirect(url_for('status'), code=302)
+
+@app.route('/continueScan')
+@authenticated_resource
+def continueScan():
+    scan_status['started'] = True
+    scan_status['progress'] = requests.get(robot_url + "/continue").json()['message']
+    return redirect(url_for('status'), code=302)
+
+@app.route('/batteryLevel')
+@authenticated_resource
+def battery():
+    battery_level = (requests.get(robot_url + "/battery").json()['message'])
+    battery_level = str(int(battery_level*100))
+    return battery_level
+
+@app.route('/scanStatus')
+@authenticated_resource
+def scanStatus():
+    scan_status = (requests.get(robot_url + "/status").json()['message'])
+    return scan_status
 
 if __name__ == "__main__":
     # we assume the robot is always on port 5001

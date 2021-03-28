@@ -53,7 +53,7 @@ function scanStatus() {
         if (this.readyState == 4) {
             if (this.status == 200) {
                 var response = JSON.parse(this.response)
-                var value = "Status: " + response.statusMessage;
+                var value = response.statusMessage;
                 document.getElementById("scanStatusText").children[0].innerHTML = value;
 
                 switch (response.status) {
@@ -65,12 +65,17 @@ function scanStatus() {
                         break;
                     case 'MOVE_OFF_BASE':
                     case 'NAVIGATION':
-                    case 'RETURN_TO_BASE':
-                    case 'DRIVE_UP_BASE':
                         startButton.style.display = "none"
                         pauseButton.style.display = "block"
                         continueButton.style.display = "none"
                         endButton.style.display = "block"
+                        break;
+                    case 'RETURN_TO_BASE':
+                    case 'DRIVE_UP_BASE':
+                        startButton.style.display = "none"
+                        pauseButton.style.display = "none"
+                        continueButton.style.display = "none"
+                        endButton.style.display = "none"
                         break;
                     case 'PAUSE':
                         startButton.style.display = "none"

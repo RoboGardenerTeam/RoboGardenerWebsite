@@ -116,35 +116,31 @@ def status():
 ################################################################
 ######################### API CALLS ############################
 ################################################################
+######################### CONTROLS #############################
 
 @app.route('/startScan')
 @authenticated_resource
 def startScan():
-    scan_status['started'] = True
-    scan_status['progress'] = requests.get(robot_url + "/start").json()['message']
-    # scan_status['progress'] = "hello"
-    return redirect(url_for('status'), code=302)
+    return requests.get(robot_url + "/start").json()['message']
 
-@app.route('/cancelScan')
+@app.route('/stopScan')
 @authenticated_resource
-def cancelScan():
-    scan_status['started'] = False
-    scan_status['progress'] = requests.get(robot_url + "/gohome").json()['message']
-    return redirect(url_for('status'), code=302)
+def stopScan():
+    return requests.get(robot_url + "/gohome").json()['message']
 
 @app.route('/pauseScan')
 @authenticated_resource
 def pauseScan():
-    scan_status['started'] = True
-    scan_status['progress'] = requests.get(robot_url + "/pause").json()['message']
-    return redirect(url_for('status'), code=302)
+    return requests.get(robot_url + "/pause").json()['message']
 
 @app.route('/continueScan')
 @authenticated_resource
 def continueScan():
-    scan_status['started'] = True
-    scan_status['progress'] = requests.get(robot_url + "/continue").json()['message']
-    return redirect(url_for('status'), code=302)
+    return requests.get(robot_url + "/continue").json()['message']
+
+
+######################### STATUS UPDATES ############################
+
 
 @app.route('/batteryLevel')
 @authenticated_resource
